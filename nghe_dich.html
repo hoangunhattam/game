@@ -441,7 +441,7 @@ function loadExcel(file) {
   rd.onload = e => {
     try {
       const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
-      const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames.find(n => /nghe/i.test(n)) || wb.SheetNames[0]], { header: 1, defval: '', blankrows: false }).map(r => r.map(c => String(c).trim()));
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames.find(n => /nghe\s*-?\s*d[iị]ch/i.test(n.normalize('NFC'))) || wb.SheetNames[0]], { header: 1, defval: '', blankrows: false }).map(r => r.map(c => String(c).trim()));
       const hi = rows.findIndex(r => r.some(c => /tiếng trung|chữ hán|中文/i.test(c)));
       XHEAD = hi >= 0 ? rows[hi] : null; XROWS = rows.slice(hi + 1).filter(r => r.some(Boolean));
       $('xname').textContent = '✓ ' + file.name;
